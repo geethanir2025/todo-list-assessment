@@ -1,0 +1,102 @@
+<main class="page">
+
+  <header class="header">
+    <h1>My tasks</h1>
+    <p>A little space to keep track of what needs to be done.</p>
+  </header>
+
+  <section class="task-card">
+
+    <form (submit)="addTodo($event, taskInput)">
+
+      <label for="newTask">New task</label>
+
+      <div class="input-row">
+        <input
+          #taskInput
+          id="newTask"
+          type="text"
+          placeholder="What needs to be done?"
+        />
+
+        <button type="submit" [disabled]="adding() || loading() || !!error()">
+          {{ adding() ? 'Adding...' : 'Add task' }}
+        </button>
+
+      </div>
+
+      @if (addError()) {
+        <p class="form-error" role="alert">
+          {{ addError() }}
+        </p>
+      }
+
+    </form>
+
+    <hr />
+
+@if (loading()) {
+
+  <p class="empty-state">
+    Loading tasks...
+  </p>
+
+}
+@else if (error()) {
+
+  <p class="empty-state">
+    {{ error() }}
+  </p>
+
+  <button type="button" (click)="loadTodos()">
+    Retry
+  </button>
+
+}
+@else if (todos().length === 0) {
+
+  <p class="empty-state">
+    No tasks yet. Add your first task above.
+  </p>
+
+}
+@else {
+
+  <ul class="todo-list">
+
+    @for (todo of todos(); track todo.id) {
+
+      <li class="todo-item">
+
+        <span class="todo-title">
+          {{ todo.title }}
+        </span>
+
+        <button
+          type="button"
+          class="delete-button"
+          [attr.aria-label]="'Delete task: ' + todo.title"
+          [disabled]="deletingId() !== null || adding() || loading() || !!error() "
+          (click)="deleteTodo(todo.id)">
+
+          {{ deletingId() === todo.id ? 'Deleting...' : 'Delete' }}
+
+        </button>
+
+      </li>
+
+    }
+
+  </ul>
+
+  @if (deleteError()) {
+    <p class="form-error" role="alert">
+      {{ deleteError() }}
+    </p>
+  }
+
+}
+
+  </section>
+
+</main>

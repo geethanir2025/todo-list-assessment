@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:5001
+
+### Add a new task
+POST {{baseUrl}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "Buy milk"
+}
+
+### Retrieve all tasks
+GET {{baseUrl}}/api/todos
+
+### Delete a TODO
+DELETE {{baseUrl}}/api/todos/f8f26d81-06fc-4236-bbc6-90404591e1d5
+
+POST http://localhost:5001/api/todos
+Content-Type: application/json
+
+{
+  "title": "Learn Angular HttpClient"
+}
